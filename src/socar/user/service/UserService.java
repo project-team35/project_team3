@@ -15,7 +15,6 @@ public class UserService implements Appservice {
             AppUi.userManagementScreen();
             int selection = AppUi.inputInteger(">>> ");
 
-
             switch (selection) {
                 case 1:
                     join();  // 회원가입
@@ -81,8 +80,8 @@ public class UserService implements Appservice {
 
         if (user != null) {
             // 비밀번호가 일치하는 경우
-            userRepository.deleteUser(userId);  // 회원 삭제
-            System.out.println("\n### 회원 탈퇴가 완료되었습니다.");
+            userRepository.deactivateUser(userId);  // 회원 비활성화 처리
+            System.out.printf("\n###[%s]님의 회원 탈퇴가 완료되었습니다." , user.getUserName());
         } else {
             // 비밀번호나 아이디가 일치하지 않으면
             System.out.println("\n### 아이디나 비밀번호가 잘못되었습니다.");
