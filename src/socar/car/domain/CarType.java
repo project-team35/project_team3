@@ -2,8 +2,8 @@ package socar.car.domain;
 
 public enum CarType {
 
-    AVANTE("아반떼",1500),
-    SONATA("쏘나타",1600),
+    AVANTE("아반떼", 1500),
+    SONATA("쏘나타", 1600),
     GRANDEUR("그랜져", 1700),
     PORTER("포터" , 2000),
     G90("G90" , 2000),

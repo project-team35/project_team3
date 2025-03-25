@@ -14,7 +14,5 @@ public class Main {
             int selectNumber = inputInteger(">>> ");
             controller.chooseSystem(selectNumber);
         }
-
     }
-
 }

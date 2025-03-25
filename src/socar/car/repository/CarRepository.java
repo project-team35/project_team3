@@ -10,9 +10,7 @@ import java.sql.SQLException;
 public class CarRepository {
 
     public static void addCar(Car Car) throws SQLException {
-        String sql = "INSERT INTO cars " +
-                "(car_id, car_type, daily_fee, is_active) " +
-                "VALUES (car_seq.NEXTVAL, ?, ?, ?)";
+        String sql = "INSERT INTO cars VALUES (car_seq.NEXTVAL, ?, ?, ?)";
 
         try(Connection conn = DBConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -29,7 +27,7 @@ public class CarRepository {
 
     //자동차 비활성화
     public static void inactiveCar(int carId){
-        String sql = "UPDATE cars SET is_active = 'N' WHERE car_id = " + carId;
+        String sql = "UPDATE cars SET \"is_active\" = 'N' WHERE \"car_id\" = " + carId;
 
         try(Connection conn = DBConnectionManager.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {

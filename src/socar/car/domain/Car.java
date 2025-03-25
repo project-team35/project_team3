@@ -8,7 +8,7 @@ public class Car {
     private int dailyFee;
     private String is_active;
 
-    public Car(int carId, String carType, int dailyFee) {
+    public Car(String carType, int dailyFee) {
         this.carId = carId;
         this.carType = carType;
         this.dailyFee = dailyFee;
