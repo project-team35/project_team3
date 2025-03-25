@@ -58,7 +58,7 @@ public class CarService implements AppService {
 
         CarRepository.addCar(car);
 
-        System.out.printf("\n### [%s] 정보가 정상적으로 추가되었습니다.");
+        System.out.println("정상적으로 추가되었습니다.");
     }
 
     //  차 비활성화 CarInactive
