@@ -5,6 +5,7 @@ import socar.car.repository.CarRepository;
 import socar.common.AppService;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import static socar.ui.AppUi.*;
 
@@ -39,9 +40,20 @@ public class CarService implements AppService {
     private void insertCarData() throws SQLException {
         System.out.println("\n ====== 자동차 정보를 추가합니다. ======");
 
-        String carType  =  inputString("# 차량종류: ");
+
+
+//        System.out.println(Arrays.toString(CarType.values()));
+        // 1. SONATA
+        // 2. G90
+        for (CarType car : CarType.values()) {
+            System.out.println(car.getEnumId() + ". " + car.getCarNameKor());
+        }
+
+        int carSelect  =  inputInteger("# 차량종류 번호 입력 : ");
+        String carType = CarType.getName(carSelect);
+
         int dailyFee =  inputInteger("# 일일대여료: ");
-        String is_active =  inputString("# 활성화여부: ");
+        String is_active =  inputString("# 활성화여부 (Y/N) :  ");
 
         Car car = new Car(carType, dailyFee);
         car.setIs_active(is_active);
@@ -54,6 +66,8 @@ public class CarService implements AppService {
     //  차 비활성화 CarInactive
     private void inactiveCarData() {
         System.out.println("\n ====== 자동차 상태를 비활성화합니다. ======");
+        carRepository.showCarList();
+
         int carId =  inputInteger("# 차량 번호: ");
         carRepository.inactiveCar(carId);
     }

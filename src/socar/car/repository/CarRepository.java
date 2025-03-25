@@ -5,6 +5,7 @@ import socar.jdbc.DBConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CarRepository {
@@ -35,7 +36,22 @@ public class CarRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+}
+    // 자동차 목록 출력
+    public static void showCarList(){
+        String sql = "SELECT * FROM cars WHERE \"is_active\" = 'Y' " ;
+
+        try(Connection conn = DBConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery()) {
+
+
+            while (rs.next()) {
+                System.out.print("차량 번호: " + rs.getString(1));
+                System.out.print(", 차량 종류: " + rs.getString(2) + "\n");
+        }
+    }   catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
-
 }
