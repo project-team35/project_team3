@@ -41,10 +41,6 @@ public class CarService implements AppService {
         System.out.println("\n ====== 자동차 정보를 추가합니다. ======");
 
 
-
-//        System.out.println(Arrays.toString(CarType.values()));
-        // 1. SONATA
-        // 2. G90
         for (CarType car : CarType.values()) {
             System.out.println(car.getEnumId() + ". " + car.getCarNameKor());
         }
