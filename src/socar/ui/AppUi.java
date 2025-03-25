@@ -31,7 +31,7 @@ public class AppUi {
 
     // 시작 화면 출력
     public static void startScreen() {
-        System.out.println("\n=========  =========");
+        System.out.println("\n========= 차량 대여 시스템 =========");
         System.out.println("### 1. 회원 가입 / 로그인");
         System.out.println("### 2. 차량 예약");
         System.out.println("### 3. 서비스 관리");
