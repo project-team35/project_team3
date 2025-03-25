@@ -2,12 +2,12 @@ package socar.main;
 
 //import socar.movie.service.MovieService;
 //import video.order.service.OrderService;
-import socar.common.Appservice;
+import socar.common.AppService;
 import socar.user.service.UserService;
 
 public class AppController {
 
-    private Appservice service;
+    private AppService service;
 
     // 선택한 메뉴에 따라 시스템을 정해주는 기능
     public void chooseSystem(int selectNumber) {

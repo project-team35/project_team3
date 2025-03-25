@@ -5,7 +5,7 @@ public class User {
     private String userName;
     private String password;
     private int licenseNum;
-    private char isAdmin;  // boolean에서 char로 변경
+    private char isAdmin;
 
     // 생성자
     public User(String userId, String userName, String password, int licenseNum, char isAdmin) {

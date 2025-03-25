@@ -1,16 +1,19 @@
 package socar.user.service;
 
-import socar.common.Appservice;
+import socar.common.AppService;
 import socar.user.domain.User;
 import socar.ui.AppUi;
 import socar.user.repository.UserRepository;
 
-public class UserService implements Appservice {
+public class UserService implements AppService {
 
     private final UserRepository userRepository = new UserRepository();
 
     @Override
     public void start() {
+        // 관리자 계정이 없는 경우 자동으로 생성
+        createAdminAccountIfNotExists();
+
         while (true) {
             AppUi.userManagementScreen();
             int selection = AppUi.inputInteger(">>> ");
@@ -33,10 +36,30 @@ public class UserService implements Appservice {
         }
     }
 
+    // 관리자 계정이 없으면 자동으로 생성
+    private void createAdminAccountIfNotExists() {
+        String adminUserId = "admin";
+        if (!userRepository.isUserIdExists(adminUserId)) {
+            System.out.println("\n### 관리자 계정이 존재하지 않습니다. 자동으로 생성됩니다.");
+
+            // 관리자 계정 생성
+            User adminUser = new User(adminUserId, "admin", "admin", 123456, 'Y');
+            userRepository.addUser(adminUser);
+            System.out.println("\n### 관리자 계정이 생성되었습니다. 아이디: admin, 비밀번호: admin");
+        }
+    }
+
     // 회원 가입
     private void join() {
         System.out.println("\n====== 회원 가입을 진행합니다. ======");
         String userId = AppUi.inputString("# 사용자 아이디: ");
+
+        // 아이디 중복 검사 추가
+        if (userRepository.isUserIdExists(userId)) {
+            System.out.println("\n### 이미 사용 중인 아이디입니다. 회원 가입을 진행할 수 없습니다.");
+            return;
+        }
+
         String userName = AppUi.inputString("# 사용자 이름: ");
         String password = AppUi.inputString("# 비밀번호: ");
         int licenseNum = AppUi.inputInteger("# 면허번호: ");
@@ -58,6 +81,12 @@ public class UserService implements Appservice {
         System.out.println("\n====== 로그인 ======");
         String userId = AppUi.inputString("# 사용자 아이디: ");
         String password = AppUi.inputString("# 비밀번호: ");
+
+        // 사용자 상태 확인
+        if (!userRepository.isUserActive(userId)) {
+            System.out.println("\n### 탈퇴한 회원입니다.");
+            return;
+        }
 
         // 아이디와 비밀번호로 사용자 정보 조회
         User user = userRepository.findUserByIdAndPassword(userId, password);
@@ -81,11 +110,10 @@ public class UserService implements Appservice {
         if (user != null) {
             // 비밀번호가 일치하는 경우
             userRepository.deactivateUser(userId);  // 회원 비활성화 처리
-            System.out.printf("\n###[%s]님의 회원 탈퇴가 완료되었습니다." , user.getUserName());
+            System.out.printf("\n### [%s]님의 회원 탈퇴가 완료되었습니다.\n", user.getUserName());
         } else {
             // 비밀번호나 아이디가 일치하지 않으면
             System.out.println("\n### 아이디나 비밀번호가 잘못되었습니다.");
         }
     }
-
 }
