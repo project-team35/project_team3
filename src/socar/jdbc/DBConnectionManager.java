@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class DBConnectionManager {
 
     // 오라클 JDBC 연결 정보
-    private static final String DRIVER = "oracle.socar.jdbc.driver.OracleDriver";
-    private static final String URL = "socar.jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "socar";
     private static final String PASSWORD = "socar";
 

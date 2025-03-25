@@ -2,13 +2,38 @@ package socar.car.service;
 import socar.car.domain.Car;
 import socar.car.domain.CarType;
 import socar.car.repository.CarRepository;
-import java.sql.SQLException;
-import static socar.ui.AppUi.inputInteger;
-import static socar.ui.AppUi.inputString;
+import socar.common.AppService;
 
-public class CarService {
+import java.sql.SQLException;
+
+import static socar.ui.AppUi.*;
+
+public class CarService implements AppService {
 
     private final CarRepository carRepository = new CarRepository();
+
+    @Override
+    public void start() throws SQLException {
+        while (true) {
+            carManagementScreen(); // AppUI 에서 이름 통일해야 함
+            int selection = inputInteger(">>> ");
+
+            switch (selection) {
+                case 1:
+                    insertCarData();
+                    break;
+                case 2:
+                    inactiveCarData();
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("### 메뉴를 다시 입력하세요.");
+
+            }
+
+        }
+    }
 
 
     //  차 추가  CarAdd
@@ -34,6 +59,7 @@ public class CarService {
         int carId =  inputInteger("# 차량 번호: ");
         carRepository.inactiveCar(carId);
     }
+
 
 
 }

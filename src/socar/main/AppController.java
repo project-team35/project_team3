@@ -1,9 +1,7 @@
 package socar.main;
 
+import socar.car.service.CarService;
 import socar.common.AppService;
-import video.movie.service.MovieService;
-import video.order.service.OrderService;
-import video.user.service.UserService;
 
 public class AppController {
 
@@ -13,10 +11,10 @@ public class AppController {
     public void chooseSystem(int selectNumber) {
         switch (selectNumber) {
             case 1:
-                service = new UserService();
+//                service = new UserService();
                 break;
             case 2:
-                service = new ReserationsService();
+//                service = new ReserationsService();
                 break;
             case 3:
                 service = new CarService();

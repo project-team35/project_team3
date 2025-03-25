@@ -50,10 +50,10 @@ public class AppUi {
     }
 
    // 예약
-    public static void movieManagementScreen() {
-        System.out.println("\n========= 차량 예약 =========");
-        System.out.println("### 1. 예약 일시 선택");
-        System.out.println("### 2. 첫 화면으로 가기");
+    public static void carManagementScreen() {
+        System.out.println("\n========= 차량 관리 =========");
+        System.out.println("### 1. 차량 추가 ");
+        System.out.println("### 2. 차량 삭제");
         makeLine();
     }
 
