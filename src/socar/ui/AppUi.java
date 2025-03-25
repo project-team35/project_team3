@@ -55,14 +55,6 @@ public class AppUi {
         System.out.println("\n========= 차량 관리 =========");
         System.out.println("### 1. 차량 추가 ");
         System.out.println("### 2. 차량 삭제");
-        makeLine();
-    }
-
-    //
-    public static void orderManagementScreen() {
-        System.out.println("\n========= 서비스 관리 =========");
-        System.out.println("### 1. 서비스 현황 관리");
-        System.out.println("### 2. 차량 관리");
         System.out.println("### 3. 첫 화면으로 가기");
         makeLine();
     }

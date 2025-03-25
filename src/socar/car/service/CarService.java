@@ -26,6 +26,8 @@ public class CarService implements AppService {
                 case 2:
                     inactiveCarData();
                     break;
+                case 3:
+                    return;  // 첫 화면으로 가기
 
                 default:
                     System.out.println("### 메뉴를 다시 입력하세요.");
@@ -66,6 +68,8 @@ public class CarService implements AppService {
 
         int carId =  inputInteger("# 차량 번호: ");
         carRepository.inactiveCar(carId);
+
+
     }
 
 
