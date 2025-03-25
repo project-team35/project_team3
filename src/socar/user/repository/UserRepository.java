@@ -55,7 +55,7 @@ public class UserRepository {
 
     // 특정 사용자가 활성화 상태인지 확인
     public boolean isUserActive(String userId) {
-        String sql = "SELECT active FROM users WHERE \"user_id\" = ?";
+        String sql = "SELECT \"active\" FROM users WHERE \"user_id\" = ?";
 
         try (Connection conn = DBConnectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -95,7 +95,7 @@ public class UserRepository {
     // 사용자 정보 조회 ( 회원탈퇴, 로그인)
     public User findUserByIdAndPassword(String userId, String password) {
         User user = null;
-        String sql = "SELECT * FROM users WHERE \"user_id\" = ? AND \"password\" = ? AND active = 'Y'";
+        String sql = "SELECT * FROM users WHERE \"user_id\" = ? AND \"password\" = ? AND \"active\" = 'Y'";  // \" 소문자 
 
         try (Connection conn = DBConnectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

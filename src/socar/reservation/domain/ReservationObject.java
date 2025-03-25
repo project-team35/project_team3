@@ -1,4 +1,4 @@
-package reservation.domain;
+package socar.reservation.domain;
 
 import java.time.LocalDate;
 

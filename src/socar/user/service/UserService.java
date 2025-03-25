@@ -8,6 +8,7 @@ import socar.user.repository.UserRepository;
 public class UserService implements AppService {
 
     private final UserRepository userRepository = new UserRepository();
+    private User loggedInUser;  // 로그인된 사용자 정보
 
     @Override
     public void start() {
@@ -16,7 +17,10 @@ public class UserService implements AppService {
 
         while (true) {
             AppUi.userManagementScreen();
+            System.out.println(getLoggedInUserId());
             int selection = AppUi.inputInteger(">>> ");
+
+
 
             switch (selection) {
                 case 1:
@@ -77,7 +81,7 @@ public class UserService implements AppService {
         System.out.printf("\n### [%s]님의 회원 가입이 완료되었습니다.\n", newUser.getUserName());
     }
 
-    private void login() {
+    public void login() {
         System.out.println("\n====== 로그인 ======");
         String userId = AppUi.inputString("# 사용자 아이디: ");
         String password = AppUi.inputString("# 비밀번호: ");
@@ -92,10 +96,23 @@ public class UserService implements AppService {
         User user = userRepository.findUserByIdAndPassword(userId, password);
 
         if (user != null) {  // 사용자 정보가 존재하면
+            loggedInUser = user;  // 로그인된 사용자 정보 저장
             System.out.printf("\n### [%s]님, 로그인에 성공했습니다.\n", user.getUserName());
         } else {
             System.out.println("\n### 아이디나 비밀번호가 잘못되었습니다.");
         }
+
+    }
+
+    // 로그인된 사용자 아이디를 반환
+    public String getLoggedInUserId() {
+        if (loggedInUser != null) {
+            System.out.println(loggedInUser.getUserId());
+            return loggedInUser.getUserId();  // 로그인된 사용자의 userId 반환
+        } else {
+            return null;  // 로그인되지 않은 경우 null 반환
+        }
+
     }
 
     // 회원 탈퇴

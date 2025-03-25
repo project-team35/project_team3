@@ -41,6 +41,7 @@ public class AppUi {
 
     // 회원관리 시스템 화면 출력
     public static void userManagementScreen() {
+
         System.out.println("\n========= 회원 관리 시스템 =========");
         System.out.println("### 1. 회원 가입");
         System.out.println("### 2. 로그인");

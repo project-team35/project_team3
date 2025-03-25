@@ -1,9 +1,9 @@
-package reservation.service;
+package socar.reservation.service;
 
-import reservation.domain.ReservationObject;
-import reservation.domain.ReservationPolicy;
-import reservation.repository.ReservationRepository;
 import socar.common.AppService;
+import socar.reservation.domain.ReservationObject;
+import socar.reservation.domain.ReservationPolicy;
+import socar.reservation.repository.ReservationRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -93,6 +93,7 @@ public class ReservationService implements AppService {
                     r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
         }
     }
+
 
     @Override
     public void start() {

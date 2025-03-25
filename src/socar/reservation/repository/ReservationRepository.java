@@ -1,10 +1,9 @@
-package reservation.repository;
+package socar.reservation.repository;
 
-import reservation.domain.ReservationObject;
+import socar.reservation.domain.ReservationObject;
 import socar.jdbc.DBConnectionManager;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
