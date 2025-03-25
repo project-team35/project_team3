@@ -31,7 +31,7 @@ public class AppUi {
 
     // 시작 화면 출력
     public static void startScreen() {
-        System.out.println("\n========= 차량 대여 시스템 =========");
+        System.out.println("\n========= PlayCar 시스템 =========");
         System.out.println("### 1. 회원 가입 / 로그인");
         System.out.println("### 2. 차량 예약");
         System.out.println("### 3. 서비스 관리");
@@ -54,7 +54,7 @@ public class AppUi {
     public static void carManagementScreen() {
         System.out.println("\n========= 차량 관리 =========");
         System.out.println("### 1. 차량 추가 ");
-        System.out.println("### 2. 차량 삭제");
+        System.out.println("### 2. 차량 비활성화");
         System.out.println("### 3. 첫 화면으로 가기");
         makeLine();
     }

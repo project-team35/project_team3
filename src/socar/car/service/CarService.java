@@ -63,13 +63,12 @@ public class CarService implements AppService {
 
     //  차 비활성화 CarInactive
     private void inactiveCarData() {
-        System.out.println("\n ====== 자동차 상태를 비활성화합니다. ======");
+        System.out.println("\n ====== 차량 상태를 비활성화합니다. ======");
         carRepository.showCarList();
 
         int carId =  inputInteger("# 차량 번호: ");
         carRepository.inactiveCar(carId);
-
-
+        System.out.println("차량 비활성화가 완료되었습니다.");
     }
 
 
