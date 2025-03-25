@@ -3,12 +3,13 @@ package reservation.service;
 import reservation.domain.ReservationObject;
 import reservation.domain.ReservationPolicy;
 import reservation.repository.ReservationRepository;
+import socar.common.AppService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReservationService {
+public class ReservationService implements AppService {
     private final ReservationRepository repo = new ReservationRepository();
     private final Scanner sc = new Scanner(System.in);
 
@@ -25,7 +26,7 @@ public class ReservationService {
             switch (sel) {
                 case 1 -> makeReservation(userId);
                 case 2 -> cancel(userId);
-                case 3 -> view(userId);
+                case 3 -> showReservationList(userId);
                 case 4 -> { System.out.println("종료합니다."); return; }
                 default -> System.out.println("잘못된 입력");
             }
@@ -43,6 +44,13 @@ public class ReservationService {
 
         System.out.print("종료일 (yyyy-mm-dd): ");
         LocalDate end = LocalDate.parse(sc.nextLine());
+
+        // 1일 이상 예약이 들어오지 않았을 시 구동
+        long day = ReservationPolicy.calculateDays(start, end);
+        if (day < 1) {
+            System.out.println("최소 1일 이상 예약해야 합니다.");
+            return;
+        }
 
         long days = ReservationPolicy.calculateDays(start, end);
         long fee = ReservationPolicy.calculateTotalFee(50000, days); // 일일요금 임시
@@ -67,22 +75,28 @@ public class ReservationService {
         System.out.print("취소할 예약 ID 입력: ");
         int id = Integer.parseInt(sc.nextLine());
 
-        System.out.println("입력하신 예약이 맞습니까? (1. 맞다 / 2. 아니다)");
+        System.out.println("입력하신 예약이 맞습니까?");
+        System.out.print("1. 예 | 2. 아니오");
         int c = Integer.parseInt(sc.nextLine());
 
         if (c == 1) {
             boolean success = repo.cancelReservation(id, userId);
-            System.out.println(success ? "예약이 취소되었습니다." : "취소 실패");
+            System.out.println(success ? "예약이 취소되었습니다." : "취소 실패 : 이전 화면으로 돌아갑니다.");
         }
     }
 
-    private void view(String userId) {
+    private void showReservationList(String userId) {
         List<ReservationObject> list = repo.findByUser(userId);
         for (ReservationObject r : list) {
             String status = r.isCancelled() ? "취소됨" : (ReservationPolicy.isReturned(r.getEndDate()) ? "반납됨" : "예약 중");
             System.out.printf("예약ID: %d | 기간: %s ~ %s | 금액: %d원 | 상태: %s\n",
                     r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
         }
+    }
+
+    @Override
+    public void start() {
+
     }
 }
 

@@ -1,5 +1,5 @@
 package socar.common;
 
-public interface Appservice {
+public interface AppService {
     void start();
 }

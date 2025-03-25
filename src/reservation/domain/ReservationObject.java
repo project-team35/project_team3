@@ -10,6 +10,7 @@ public class ReservationObject {
     private LocalDate endDate;
     private long totalFee;
     private boolean isCancelled;
+    private boolean isReturned;
 
     public ReservationObject(String userId, int carId, LocalDate startDate, LocalDate endDate, long totalFee) {
         this.userId = userId;
@@ -17,9 +18,7 @@ public class ReservationObject {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalFee = totalFee;
-        this.isCancelled = false;
     }
-
 
     public int getReservationId() {
         return reservationId;
@@ -56,4 +55,37 @@ public class ReservationObject {
     public void cancel() {
         this.isCancelled = true;
     }
+
+    public boolean isReturned() {
+        return isReturned;
+    }
+
+    public void setReturned(boolean returned) {
+        isReturned = returned;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setTotalFee(long totalFee) {
+        this.totalFee = totalFee;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
 }
