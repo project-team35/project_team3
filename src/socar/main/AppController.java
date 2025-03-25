@@ -2,6 +2,7 @@ package socar.main;
 
 import socar.car.service.CarService;
 import socar.common.AppService;
+import socar.reservation.service.ReservationService;
 import socar.user.service.UserService;
 
 public class AppController {
@@ -15,9 +16,9 @@ public class AppController {
             case 1:
                 service = new UserService();
                 break;
-//            case 2:
-//                service = new ReserationsService();
-//                break;
+            case 2:
+                service = new ReservationService();
+                break;
             case 3:
                 String loggedInUserId = getLoggedInUserId();
                 if("admin".equals(loggedInUserId)) {
