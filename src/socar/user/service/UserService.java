@@ -4,11 +4,17 @@ import socar.common.AppService;
 import socar.user.domain.User;
 import socar.ui.AppUi;
 import socar.user.repository.UserRepository;
+import socar.main.AppController;
 
 public class UserService implements AppService {
 
     private final UserRepository userRepository = new UserRepository();
-    private User loggedInUser;  // 로그인된 사용자 정보
+    private AppController appController;  // AppController 객체 추가
+    private String loggedInUserId;  // 로그인된 사용자 아이디
+
+    public UserService(AppController appController) {
+        this.appController = appController;
+    }
 
     @Override
     public void start() {
@@ -17,10 +23,7 @@ public class UserService implements AppService {
 
         while (true) {
             AppUi.userManagementScreen();
-            System.out.println(getLoggedInUserId());
             int selection = AppUi.inputInteger(">>> ");
-
-
 
             switch (selection) {
                 case 1:
@@ -38,6 +41,11 @@ public class UserService implements AppService {
                     System.out.println("# 메뉴를 다시 입력하세요!");
             }
         }
+    }
+
+    // 로그인된 사용자 확인
+    public boolean isLoggedIn() {
+        return loggedInUserId != null;  // 로그인된 사용자가 있으면 true 반환
     }
 
     // 관리자 계정이 없으면 자동으로 생성
@@ -81,7 +89,8 @@ public class UserService implements AppService {
         System.out.printf("\n### [%s]님의 회원 가입이 완료되었습니다.\n", newUser.getUserName());
     }
 
-    public void login() {
+    // 로그인 처리
+    private void login() {
         System.out.println("\n====== 로그인 ======");
         String userId = AppUi.inputString("# 사용자 아이디: ");
         String password = AppUi.inputString("# 비밀번호: ");
@@ -96,23 +105,13 @@ public class UserService implements AppService {
         User user = userRepository.findUserByIdAndPassword(userId, password);
 
         if (user != null) {  // 사용자 정보가 존재하면
-            loggedInUser = user;  // 로그인된 사용자 정보 저장
             System.out.printf("\n### [%s]님, 로그인에 성공했습니다.\n", user.getUserName());
+            loggedInUserId = user.getUserId();  // 로그인된 사용자 아이디 저장
+            // 로그인 후 AppController에 로그인된 사용자 아이디 설정
+            appController.setLoggedInUserId(user.getUserId()); // 로그인된 사용자 정보 전달
         } else {
             System.out.println("\n### 아이디나 비밀번호가 잘못되었습니다.");
         }
-
-    }
-
-    // 로그인된 사용자 아이디를 반환
-    public String getLoggedInUserId() {
-        if (loggedInUser != null) {
-            System.out.println(loggedInUser.getUserId());
-            return loggedInUser.getUserId();  // 로그인된 사용자의 userId 반환
-        } else {
-            return null;  // 로그인되지 않은 경우 null 반환
-        }
-
     }
 
     // 회원 탈퇴
