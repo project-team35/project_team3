@@ -1,9 +1,9 @@
 package socar.reservation.service;
 
-import socar.common.AppService;
 import socar.reservation.domain.ReservationObject;
 import socar.reservation.domain.ReservationPolicy;
 import socar.reservation.repository.ReservationRepository;
+import socar.common.AppService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,10 +34,7 @@ public class ReservationService implements AppService {
     }
 
     private void makeReservation(String userId) {
-        if (repo.hasActiveReservation(userId)) {
-            System.out.println("이미 예약 중인 차량이 있습니다.");
-            return;
-        }
+
 
         System.out.print("시작일 (yyyy-mm-dd): ");
         LocalDate start = LocalDate.parse(sc.nextLine());
@@ -76,7 +73,7 @@ public class ReservationService implements AppService {
         int id = Integer.parseInt(sc.nextLine());
 
         System.out.println("입력하신 예약이 맞습니까?");
-        System.out.print("1. 예 | 2. 아니오");
+        System.out.println("1. 예 | 2. 아니오");
         int c = Integer.parseInt(sc.nextLine());
 
         if (c == 1) {
@@ -87,17 +84,34 @@ public class ReservationService implements AppService {
 
     private void showReservationList(String userId) {
         List<ReservationObject> list = repo.findByUser(userId);
+
+       /* if (list.isEmpty()) {
+
+            System.out.println("예약 내역이 없습니다.");
+            return;
+        }*/
+
         for (ReservationObject r : list) {
-            String status = r.isCancelled() ? "취소됨" : (ReservationPolicy.isReturned(r.getEndDate()) ? "반납됨" : "예약 중");
+            String status;
+            if (r.isCancelled()) {
+                status = "취소됨";
+            } else if (r.isReturned()) {
+                status = "반납됨";
+            } else {
+                status = "예약 중";
+            }
+
             System.out.printf("예약ID: %d | 기간: %s ~ %s | 금액: %d원 | 상태: %s\n",
                     r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
         }
     }
 
-
     @Override
     public void start() {
-
+        System.out.print("아이디를 입력하세요 : ");
+        String userId = sc.nextLine();
+        start(userId);
     }
 }
+
 
