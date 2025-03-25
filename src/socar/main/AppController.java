@@ -1,9 +1,9 @@
 package socar.main;
 
-//import socar.movie.service.MovieService;
-//import video.order.service.OrderService;
 import socar.common.AppService;
-import socar.user.service.UserService;
+import video.movie.service.MovieService;
+import video.order.service.OrderService;
+import video.user.service.UserService;
 
 public class AppController {
 
@@ -15,13 +15,13 @@ public class AppController {
             case 1:
                 service = new UserService();
                 break;
-//            case 2:
-//                service = new ReserationsService();
-//                break;
-//            case 3:
-//                service = new CarService();
-//                break;
             case 2:
+                service = new ReserationsService();
+                break;
+            case 3:
+                service = new CarService();
+                break;
+            case 4:
                 System.out.println("# 프로그램을 종료합니다.");
                 System.exit(0);
             default:
