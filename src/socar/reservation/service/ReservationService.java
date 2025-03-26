@@ -1,6 +1,7 @@
 package socar.reservation.service;
 
 import socar.car.domain.CarType;
+import socar.main.AppController;
 import socar.reservation.domain.ReservationObject;
 import socar.reservation.domain.ReservationPolicy;
 import socar.reservation.repository.ReservationRepository;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 public class ReservationService implements AppService {
     private final ReservationRepository repo = new ReservationRepository();
     private final Scanner sc = new Scanner(System.in);
+    private AppController appController;  // AppController 객체 추가
 
     public void start(String userId) {
         while (true) {
@@ -160,12 +162,11 @@ public class ReservationService implements AppService {
         }
     }
 
-    // 테스트 유저 ID
+     // 테스트 유저 ID
     @Override
     public void start() {
-        System.out.print("아이디를 입력하세요 : ");
-        String userId = sc.nextLine();
-        start(userId);
+        System.out.println(appController.getLoggedInUserId());
+        start(appController.getLoggedInUserId());
     }
 }
 
