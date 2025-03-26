@@ -23,7 +23,7 @@ public class AppUi {
                 num = sc.nextInt();
                 validInput = true; // 입력이 성공하면 반복 종료
             } catch (InputMismatchException e) {
-                System.out.println("# 올바른 정수 입력값이 아닙니다!");
+                System.out.println("| 올바른 정수 입력값이 아닙니다!");
                 sc.nextLine(); // 쓰레기 문자열 수거
             }
         }
@@ -55,20 +55,20 @@ public class AppUi {
 
     // 회원 관리 시스템 화면 출력
     public static void userManagementScreen() {
-        System.out.println("\n========= 회원 관리 시스템 =========");
-        System.out.println("### 1. 회원 가입");
-        System.out.println("### 2. 로그인");
-        System.out.println("### 3. 회원 탈퇴");
-        System.out.println("### 4. 첫 화면으로 가기");
+        System.out.println("\n================ 회원 관리 시스템 ================");
+        System.out.println("| 1. 회원 가입");
+        System.out.println("| 2. 로그인");
+        System.out.println("| 3. 회원 탈퇴");
+        System.out.println("| 4. 첫 화면으로 가기");
         makeLine();
     }
 
     // 차량 관리 시스템 화면 출력
     public static void carManagementScreen() {
-        System.out.println("\n========= 차량 관리 =========");
-        System.out.println("### 1. 차량 추가 ");
-        System.out.println("### 2. 차량 비활성화");
-        System.out.println("### 3. 첫 화면으로 가기");
+        System.out.println("\n=================== 차량 관리 ===================");
+        System.out.println("| 1. 차량 추가 ");
+        System.out.println("| 2. 차량 비활성화");
+        System.out.println("| 3. 첫 화면으로 가기");
         makeLine();
     }
 }
