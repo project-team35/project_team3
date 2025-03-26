@@ -13,17 +13,23 @@ public class AppUi {
         return sc.nextLine();
     }
 
-    // 사용자로부터 정수 입력 받기
     public static int inputInteger(String message) {
-        System.out.print(message);
         int num = 0;
-        try {
-            num = sc.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("# 올바른 정수 입력값이 아닙니다!");
-        } finally {
-            sc.nextLine(); // try에서도(엔터 입력값), catch에서도(쓰레기 문자열 수거) nextLine()이 동작해야 함.
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print(message);
+            try {
+                num = sc.nextInt();
+                validInput = true; // 입력이 성공하면 반복 종료
+            } catch (InputMismatchException e) {
+                System.out.println("# 올바른 정수 입력값이 아닙니다!");
+                sc.nextLine(); // 쓰레기 문자열 수거
+            }
         }
+
+        // 남아 있는 엔터를 처리하기 위해 nextLine()을 추가
+        sc.nextLine(); // 이 부분은 입력받은 후 불필요한 엔터를 처리하는 역할
         return num;
     }
 
