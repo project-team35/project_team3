@@ -7,11 +7,13 @@ public class AppUi {
 
     private static Scanner sc = new Scanner(System.in);
 
+    // 사용자로부터 문자열 입력 받기
     public static String inputString(String message) {
         System.out.print(message);
         return sc.nextLine();
     }
 
+    // 사용자로부터 정수 입력 받기
     public static int inputInteger(String message) {
         System.out.print(message);
         int num = 0;
@@ -25,23 +27,29 @@ public class AppUi {
         return num;
     }
 
+    // 구분선 출력
     public static void makeLine() {
         System.out.println("===============================================");
     }
 
-    // 시작 화면 출력
-    public static void startScreen() {
-        System.out.println("\n========= PlayCar 시스템 =========");
-        System.out.println("### 1. 회원 가입 / 로그인");
-        System.out.println("### 2. 차량 예약");
-        System.out.println("### 3. 서비스 관리");
-        System.out.println("### 4. 프로그램 종료");
+    // 시작 화면 출력 (로그인 상태에 따라 다른 메뉴)
+    public static void startScreen(boolean isLoggedIn) {
+        System.out.println("\n================ PlayCar 시스템 ================");
+
+        if (isLoggedIn) {
+            System.out.println("| 2. 차량 예약");
+            System.out.println("| 3. 서비스 관리");
+            System.out.println("| 4. 로그아웃");
+        } else {
+            System.out.println("| 1. 회원 가입 / 로그인");
+        }
+
+        System.out.println("| 5. 프로그램 종료");
         makeLine();
     }
 
-    // 회원관리 시스템 화면 출력
+    // 회원 관리 시스템 화면 출력
     public static void userManagementScreen() {
-
         System.out.println("\n========= 회원 관리 시스템 =========");
         System.out.println("### 1. 회원 가입");
         System.out.println("### 2. 로그인");
@@ -50,7 +58,7 @@ public class AppUi {
         makeLine();
     }
 
-   // 예약
+    // 차량 관리 시스템 화면 출력
     public static void carManagementScreen() {
         System.out.println("\n========= 차량 관리 =========");
         System.out.println("### 1. 차량 추가 ");
