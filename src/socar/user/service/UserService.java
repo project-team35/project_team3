@@ -10,7 +10,6 @@ public class UserService implements AppService {
 
     private final UserRepository userRepository = new UserRepository();
     private AppController appController;  // AppController 객체 추가
-    private String loggedInUserId;  // 로그인된 사용자 아이디
 
     public UserService(AppController appController) {
         this.appController = appController;
@@ -18,7 +17,6 @@ public class UserService implements AppService {
 
     @Override
     public void start() {
-        // 관리자 계정이 없는 경우 자동으로 생성
         createAdminAccountIfNotExists();
 
         while (true) {
@@ -26,26 +24,13 @@ public class UserService implements AppService {
             int selection = AppUi.inputInteger(">>> ");
 
             switch (selection) {
-                case 1:
-                    join();  // 회원가입
-                    break;
-                case 2:
-                    login();  // 로그인
-                    break;
-                case 3:
-                    deleteUser();  // 회원 탈퇴
-                    break;
-                case 4:
-                    return;  // 종료
-                default:
-                    System.out.println("# 메뉴를 다시 입력하세요!");
+                case 1: join(); break;      // 회원가입
+                case 2: login(); break;     // 로그인
+                case 3: deleteUser(); break; // 회원탈퇴
+                case 4: return;             // 종료
+                default: System.out.println("# 메뉴를 다시 입력하세요!");
             }
         }
-    }
-
-    // 로그인된 사용자 확인
-    public boolean isLoggedIn() {
-        return loggedInUserId != null;  // 로그인된 사용자가 있으면 true 반환
     }
 
     // 관리자 계정이 없으면 자동으로 생성
@@ -106,12 +91,21 @@ public class UserService implements AppService {
 
         if (user != null) {  // 사용자 정보가 존재하면
             System.out.printf("\n### [%s]님, 로그인에 성공했습니다.\n", user.getUserName());
-            loggedInUserId = user.getUserId();  // 로그인된 사용자 아이디 저장
-            // 로그인 후 AppController에 로그인된 사용자 아이디 설정
             appController.setLoggedInUserId(user.getUserId()); // 로그인된 사용자 정보 전달
         } else {
             System.out.println("\n### 아이디나 비밀번호가 잘못되었습니다.");
         }
+    }
+
+    // 로그아웃 처리
+    public void logout() {
+        if (!appController.isLoggedIn()) {
+            System.out.println("\n### 현재 로그인된 사용자가 없습니다.");
+            return;
+        }
+
+        System.out.printf("\n### [%s]님, 로그아웃 되었습니다.\n", appController.getLoggedInUserId());
+        appController.setLoggedInUserId(null);  // 로그인 상태 초기화
     }
 
     // 회원 탈퇴

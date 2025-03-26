@@ -78,7 +78,7 @@ public class UserRepository {
 
     // 회원 탈퇴 (비활성화 처리)
     public void deactivateUser(String userId) {
-        String sql = "UPDATE users SET active = 'N' WHERE \"user_id\" = ?";  // active 컬럼을 'N'으로 설정
+        String sql = "UPDATE users SET \"active\" = 'N' WHERE \"user_id\" = ?";  // active 컬럼을 'N'으로 설정
 
         try (Connection conn = DBConnectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
