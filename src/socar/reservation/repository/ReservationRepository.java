@@ -25,7 +25,6 @@ public class ReservationRepository {
             pstmt.setDate(4, Date.valueOf(r.getEndDate()));
             pstmt.setLong(5, r.getTotalFee());
 
-
             int rows = pstmt.executeUpdate();
             if (rows > 0) {
                 conn.commit();  // 데이터 저장을 확정
@@ -136,6 +135,65 @@ public class ReservationRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
+    }
+
+    // 예약 ID로 예약을 조회하는 메서드 추가
+    public ReservationObject findById(int reservationId) {
+        String sql = "SELECT \"reservation_id\", \"user_id\", \"car_id\", \"start_date\", \"end_date\", \"total_fee\", \"is_cancelled\", \"is_returned\" " +
+                "FROM RESERVATIONS WHERE \"reservation_id\" = ?";
+
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reservationId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                ReservationObject r = new ReservationObject(
+                        rs.getString("user_id"),
+                        rs.getInt("car_id"),
+                        rs.getDate("start_date").toLocalDate(),
+                        rs.getDate("end_date").toLocalDate(),
+                        rs.getLong("total_fee")
+                );
+                r.setReservationId(rs.getInt("reservation_id"));
+                r.setCancelled("Y".equals(rs.getString("is_cancelled")));
+                r.setReturned("Y".equals(rs.getString("is_returned")));
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;  // 예약이 없으면 null 반환
+    }
+
+    public List<ReservationObject> findAll() {
+        List<ReservationObject> list = new ArrayList<>();
+        String sql = "SELECT \"reservation_id\", \"user_id\", \"car_id\", \"start_date\", \"end_date\", \"total_fee\", \"is_cancelled\", \"is_returned\" " +
+                "FROM RESERVATIONS ORDER BY \"start_date\" DESC";
+
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                ReservationObject r = new ReservationObject(
+                        rs.getString("user_id"),
+                        rs.getInt("car_id"),
+                        rs.getDate("start_date").toLocalDate(),
+                        rs.getDate("end_date").toLocalDate(),
+                        rs.getLong("total_fee")
+                );
+                r.setReservationId(rs.getInt("reservation_id"));
+                r.setCancelled("Y".equals(rs.getString("is_cancelled")));
+                r.setReturned("Y".equals(rs.getString("is_returned")));
+                list.add(r);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 }
