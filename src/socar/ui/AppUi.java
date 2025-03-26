@@ -43,7 +43,6 @@ public class AppUi {
         } else {
             System.out.println("| 1. 회원 가입 / 로그인");
         }
-
         System.out.println("| 5. 프로그램 종료");
         makeLine();
     }
