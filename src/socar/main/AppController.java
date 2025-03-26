@@ -49,8 +49,8 @@ public class AppController {
             case 4: // 로그아웃
                 if (isLoggedIn()) {
                     userService.logout(); // 로그아웃 메소드 호출
+                    return;// 로그아웃 후 메인 화면으로 돌아가기
                 }
-//                service = new ReservationService();
                 break;
             case 5: // 프로그램 종료
                 System.out.println("# 프로그램을 종료합니다.");
