@@ -123,30 +123,14 @@ public class ReservationService implements AppService {
 
     // 예약 취소
     private void cancel(String userId) {
-        List<ReservationObject> list;
-
-        if ("admin".equals(userId)) {
-            // 관리자(admin)는 모든 예약을 조회
-            list = repo.findAll();  // 모든 예약 조회
-        } else {
-            // 일반 사용자는 본인의 예약만 조회
-            list = repo.findByUser(userId);
-        }
-
-        if (list.isEmpty()) {
-            System.out.println("예약 내역이 없습니다.");
-            return;
-        }
-
-        // 예약 목록 출력
+        List<ReservationObject> list = repo.findByUser(userId);
         for (ReservationObject r : list) {
             if (!r.isCancelled() && r.getEndDate().isAfter(LocalDate.now())) {
-                System.out.printf("예약 ID: %d | 사용자: %s | 기간: %s ~ %s | 금액: %d원\n",
-                        r.getReservationId(), r.getUserId(), r.getStartDate(), r.getEndDate(), r.getTotalFee());
+                System.out.printf("예약 ID: %d | 기간: %s ~ %s | 금액: %d원\n",
+                        r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee());
             }
         }
 
-        // 취소할 예약 ID 입력 받기
         System.out.print("취소할 예약 ID 입력: ");
         int id = Integer.parseInt(sc.nextLine());
 
@@ -155,46 +139,20 @@ public class ReservationService implements AppService {
         int c = Integer.parseInt(sc.nextLine());
 
         if (c == 1) {
-            // 예약 ID로 예약 객체 찾기
-            ReservationObject reservation = repo.findById(id);
-
-            if (reservation == null) {
-                System.out.println("해당 예약을 찾을 수 없습니다.");
-                return;
-            }
-
-            // 관리자가 취소할 경우, 해당 예약의 실제 사용자 ID로 취소를 진행
-            boolean success = false;
-            if ("admin".equals(userId)) {
-                // 관리자라면, 해당 예약의 실제 사용자 ID로 취소 작업 진행
-                success = repo.cancelReservation(id, reservation.getUserId());  // 관리자일 때는 예약의 사용자 ID로 취소
-            } else {
-                // 일반 사용자는 자신의 예약만 취소
-                success = repo.cancelReservation(id, userId);
-            }
-
+            boolean success = repo.cancelReservation(id, userId);
             System.out.println(success ? "예약이 취소되었습니다." : "취소 실패 : 이전 화면으로 돌아갑니다.");
         }
     }
 
-
-
     // 예약 조회
     private void showReservationList(String userId) {
-        List<ReservationObject> list;
+        List<ReservationObject> list = repo.findByUser(userId);
 
-        if ("admin".equals(userId)) {
-            // 관리자(admin)는 모든 예약을 조회
-            list = repo.findAll();  // null을 전달하여 모든 예약을 반환하게 처리
-        } else {
-            // 일반 사용자는 본인의 예약만 조회
-            list = repo.findByUser(userId);
-        }
+       /* if (list.isEmpty()) {
 
-        if (list.isEmpty()) {
             System.out.println("예약 내역이 없습니다.");
             return;
-        }
+        }*/
 
         for (ReservationObject r : list) {
             String status;
@@ -206,8 +164,8 @@ public class ReservationService implements AppService {
                 status = "예약 중";
             }
 
-            System.out.printf("예약ID: %d | 예약자 이름: %s | 기간: %s ~ %s | 금액: %d원 | 상태: %s\n",
-                    r.getReservationId(), r.getUserId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
+            System.out.printf("예약ID: %d | 기간: %s ~ %s | 금액: %d원 | 상태: %s\n",
+                    r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
         }
     }
 }
