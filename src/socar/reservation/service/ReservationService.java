@@ -146,13 +146,24 @@ public class ReservationService implements AppService {
 
     // 예약 조회
     private void showReservationList(String userId) {
-        List<ReservationObject> list = repo.findByUser(userId);
+        List<ReservationObject> list;
 
-       /* if (list.isEmpty()) {
+        if ("admin".equals(userId)) {
+            // 관리자(admin)는 모든 예약을 조회
+            list = repo.findByUser(null);  // null을 전달하여 모든 예약을 반환하게 처리
+
+//            list = repo.ShowAdminReservationList();
+
+        } else {
+            // 일반 사용자는 본인의 예약만 조회
+            list = repo.findByUser(userId);
+        }
+
+        if (list.isEmpty()) {
 
             System.out.println("예약 내역이 없습니다.");
             return;
-        }*/
+        }
 
         for (ReservationObject r : list) {
             String status;

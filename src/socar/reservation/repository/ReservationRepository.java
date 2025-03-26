@@ -138,4 +138,18 @@ public class ReservationRepository {
         }
         return list;
     }
+
+    public List<ReservationObject> ShowAdminReservationList() {
+        String sql = "SELECT  FROM RESERVATIONS ";
+
+        try(Connection conn = DBConnectionManager.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List.of();
+    }
 }
