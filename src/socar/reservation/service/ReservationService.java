@@ -116,7 +116,7 @@ public class ReservationService implements AppService {
         System.out.printf("결제 금액: %d원\n", fee);
 
         ReservationObject r = new ReservationObject(userId, carId, start, end, fee);
-        repo.save(r);
+        repo.save(r); // 예약 저장
 
         System.out.printf("[%s]님 예약이 완료되었습니다. (%s ~ %s)\n",userId, start, end);
     }
@@ -133,8 +133,18 @@ public class ReservationService implements AppService {
             list = repo.findByUser(userId);
         }
 
-        if (list.isEmpty()) {
-            System.out.println("예약 내역이 없습니다.");
+        boolean hasCancelable = false;
+
+        for (ReservationObject r : list) {
+            if (!r.isCancelled() && r.getEndDate().isAfter(LocalDate.now())) {
+                System.out.printf("예약 ID: %d | 사용자: %s | 기간: %s ~ %s | 금액: %d원\n",
+                        r.getReservationId(), r.getUserId(), r.getStartDate(), r.getEndDate(), r.getTotalFee());
+                hasCancelable = true;
+            }
+        }
+
+        if (!hasCancelable) {
+            System.out.println("예약 내역이1 없습니다.");
             return;
         }
 
