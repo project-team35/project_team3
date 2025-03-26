@@ -6,7 +6,9 @@ import socar.jdbc.DBConnectionManager;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ReservationRepository {
 
@@ -34,6 +36,52 @@ public class ReservationRepository {
             e.printStackTrace();
         }
     }
+
+    public List<Map<String, Object>> findAvailableCars(LocalDate start, LocalDate end) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        String sql = """
+        SELECT "car_id", "car_type", "daily_fee"
+        FROM CARS
+        WHERE "is_active" = 'Y'
+        AND "car_id" NOT IN (
+            SELECT "car_id"
+            FROM RESERVATIONS
+            WHERE "is_cancelled" = 'N'
+              AND (
+                ("start_date" <= ? AND "end_date" >= ?) OR
+                ("start_date" <= ? AND "end_date" >= ?) OR
+                ("start_date" >= ? AND "end_date" <= ?)
+              )
+        )
+        ORDER BY "car_id"
+        """;
+
+        try (Connection conn = DBConnectionManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, Date.valueOf(start));
+            pstmt.setDate(2, Date.valueOf(start));
+            pstmt.setDate(3, Date.valueOf(end));
+            pstmt.setDate(4, Date.valueOf(end));
+            pstmt.setDate(5, Date.valueOf(start));
+            pstmt.setDate(6, Date.valueOf(end));
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("carId", rs.getInt("car_id"));
+                map.put("carType", rs.getString("car_type"));
+                map.put("dailyFee", rs.getLong("daily_fee"));
+                list.add(map);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 
     public boolean cancelReservation(int reservationId, String userId) {
         String sql = "UPDATE RESERVATIONS SET \"is_cancelled\" = 'Y', \"is_returned\" = 'Y' WHERE \"reservation_id\" = ? AND \"user_id\" = ? AND \"is_cancelled\" = 'N' AND \"is_returned\" = 'N'";
