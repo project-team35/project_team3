@@ -28,12 +28,13 @@ public class AppController {
                 service = new UserService(this);  // UserService에 AppController 전달
                 break;
             case 2: // 차량 예약
-//                if (!isLoggedIn()) {
-//                    System.out.println("로그인이 필요합니다.");
-//                    return;
-//                }
-                service = new ReservationService();
+                if (!isLoggedIn()) {
+                    System.out.println("로그인이 필요합니다.");
+                    return;
+                }
+                service = new ReservationService(loggedInUserId); // ✅ 로그인된 사용자 ID 전달
                 break;
+
             case 3: // 서비스 관리 (관리자만 접근 가능)
                 if (!isLoggedIn()) {
                     System.out.println("로그인이 필요합니다.");

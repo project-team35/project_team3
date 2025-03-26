@@ -7,6 +7,7 @@ import socar.reservation.domain.ReservationPolicy;
 import socar.reservation.repository.ReservationRepository;
 import socar.common.AppService;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,14 @@ import java.util.Scanner;
 public class ReservationService implements AppService {
     private final ReservationRepository repo = new ReservationRepository();
     private final Scanner sc = new Scanner(System.in);
-    private AppController appController;  // AppController 객체 추가
+    private final String userId;
 
-    public void start(String userId) {
+    public ReservationService(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public void start() {
         while (true) {
             System.out.println("\n--- 예약 시스템 ---");
             System.out.println("1. 예약하기");
@@ -27,13 +33,15 @@ public class ReservationService implements AppService {
             System.out.print(">>> ");
 
             int sel = Integer.parseInt(sc.nextLine());
-
             switch (sel) {
-                case 1 -> makeReservation(userId);
-                case 2 -> cancel(userId);
-                case 3 -> showReservationList(userId);
-                case 4 -> { System.out.println("종료합니다."); return; }
-                default -> System.out.println("잘못된 입력");
+                case 1 : makeReservation(userId); break;
+                case 2 : cancel(userId); break;
+                case 3 : showReservationList(userId); break;
+                case 4 : {
+                    System.out.println("종료합니다.");
+                    return;
+                }
+                default : System.out.println("잘못된 입력");
             }
         }
     }
@@ -41,7 +49,6 @@ public class ReservationService implements AppService {
 
     // 차량 예약하기
     private void makeReservation(String userId) {
-
 
         System.out.print("시작일 (yyyy-mm-dd): ");
         LocalDate start = LocalDate.parse(sc.nextLine());
@@ -111,7 +118,7 @@ public class ReservationService implements AppService {
         ReservationObject r = new ReservationObject(userId, carId, start, end, fee);
         repo.save(r);
 
-        System.out.printf("예약이 완료되었습니다. (%s ~ %s)\n", start, end);
+        System.out.printf("[%s]님 예약이 완료되었습니다. (%s ~ %s)\n",userId, start, end);
     }
 
     // 예약 취소
@@ -160,13 +167,6 @@ public class ReservationService implements AppService {
             System.out.printf("예약ID: %d | 기간: %s ~ %s | 금액: %d원 | 상태: %s\n",
                     r.getReservationId(), r.getStartDate(), r.getEndDate(), r.getTotalFee(), status);
         }
-    }
-
-     // 테스트 유저 ID
-    @Override
-    public void start() {
-        System.out.println(appController.getLoggedInUserId());
-        start(appController.getLoggedInUserId());
     }
 }
 
