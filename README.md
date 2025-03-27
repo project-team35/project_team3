@@ -36,6 +36,6 @@
   <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
   <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
   <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-  <img src="https://img.shields.io/badge/git-4285F4?style=for-the-badge&logo=gogleDrive&logoColor=white">
+  <img src="https://img.shields.io/badge/Google Drive-4285F4?style=for-the-badge&logo=googleDrive&logoColor=white">
   
 </div>
