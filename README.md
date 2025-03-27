@@ -9,9 +9,9 @@
 <br></br>
 ### 주요 기능
 **`사용자`를 위한 기능**
-- 
+ 
 **`관리자`를 위한 기능**
-- ***************
+***************
 
 
 ## 📑 목차
@@ -24,7 +24,11 @@
 👉🏻[4.MSA 설계서 링크](https://github.com/project-team35/project_team3/blob/main/document/4.%20MSA%20%EC%84%A4%EA%B3%84%EC%84%9C.md)   
 
 
-🚀 기술 스택
+***************
+
+
+## 🚀 기술 스택
+
 <div align=left> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
   <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
