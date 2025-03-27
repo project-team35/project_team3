@@ -3,7 +3,6 @@ package socar.main;
 import socar.car.service.CarService;
 import socar.common.AppService;
 import socar.reservation.service.ReservationService;
-import socar.ui.AppUi;
 import socar.user.service.UserService;
 
 public class AppController {
@@ -32,7 +31,7 @@ public class AppController {
                     System.out.println("로그인이 필요합니다.");
                     return;
                 }
-                service = new ReservationService(loggedInUserId); // ✅ 로그인된 사용자 ID 전달
+                service = new ReservationService(loggedInUserId); // 로그인된 사용자 ID 전달
                 break;
 
             case 3: // 서비스 관리 (관리자만 접근 가능)
@@ -54,10 +53,10 @@ public class AppController {
                 }
                 break;
             case 5: // 프로그램 종료
-                System.out.println("# 프로그램을 종료합니다.");
+                System.out.println("| 프로그램을 종료합니다.");
                 System.exit(0);
             default:
-                System.out.println("# 존재하지 않는 메뉴입니다.");
+                System.out.println("| 존재하지 않는 메뉴입니다.");
                 return;
         }
 
@@ -65,7 +64,7 @@ public class AppController {
         try {
             service.start();
         } catch (Exception e) {
-            System.out.println("# 메뉴를 다시 입력하세요!");
+            System.out.println("| 메뉴를 다시 입력하세요!");
         }
     }
 

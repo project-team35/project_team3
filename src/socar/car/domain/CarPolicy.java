@@ -1,6 +1,5 @@
 package socar.car.domain;
 
-import java.time.LocalDate;
 
 public class CarPolicy {
 ////    모든 단일 차량은 고유한 차량 번호로 식별된다. => DB 설계에 반영 완료 [O]

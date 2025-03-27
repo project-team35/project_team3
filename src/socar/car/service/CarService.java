@@ -5,7 +5,6 @@ import socar.car.repository.CarRepository;
 import socar.common.AppService;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import static socar.ui.AppUi.*;
 

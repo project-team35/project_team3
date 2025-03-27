@@ -96,19 +96,6 @@ public class ReservationRepository {
         return false;
     }
 
-    public boolean hasActiveReservation(String userId) {
-        String sql = "SELECT COUNT(*) FROM RESERVATIONS WHERE \"user_id\" = ? AND \"is_cancelled\" = 'N' AND \"end_date\" >= SYSDATE";
-        try (Connection conn = DBConnectionManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) return rs.getInt(1) > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public List<ReservationObject> findByUser(String userId) {
         List<ReservationObject> list = new ArrayList<>();
         String sql = "SELECT \"reservation_id\", \"user_id\",\"car_id\", \"start_date\", \"end_date\", \"total_fee\", \"is_cancelled\", \"is_returned\" " +

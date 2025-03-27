@@ -1,13 +1,11 @@
 package socar.reservation.service;
 
 import socar.car.domain.CarType;
-import socar.main.AppController;
 import socar.reservation.domain.ReservationObject;
 import socar.reservation.domain.ReservationPolicy;
 import socar.reservation.repository.ReservationRepository;
 import socar.common.AppService;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,6 @@ public class ReservationService implements AppService {
             System.out.println("3. 예약조회");
             System.out.println("4. 종료");
             System.out.print(">>> ");
-
             int sel = Integer.parseInt(sc.nextLine());
             switch (sel) {
                 case 1 : makeReservation(userId); break;
@@ -56,13 +53,13 @@ public class ReservationService implements AppService {
         System.out.print("종료일 (yyyy-mm-dd): ");
         LocalDate end = LocalDate.parse(sc.nextLine());
 
-        // 🚫 시작일이 과거일 경우
+        // 시작일이 과거일 경우
         if (start.isBefore(LocalDate.now())) {
             System.out.println("이미 지난 날짜로는 예약할 수 없습니다.");
             return;
         }
 
-        // 🚫 종료일이 시작일보다 이전일 경우
+        // 종료일이 시작일보다 이전일 경우
         if (end.isBefore(start)) {
             System.out.println("종료일은 시작일보다 이후여야 합니다.");
             return;
@@ -105,7 +102,7 @@ public class ReservationService implements AppService {
         System.out.print("예약할 차량 번호(car_id) 입력: ");
         int carId = Integer.parseInt(sc.nextLine());
 
-        // 🚫 car_id 유효성 검사
+        // car_id 유효성 검사
         Map<String, Object> selectedCar = availableCars.stream()
                 .filter(c -> (int) c.get("carId") == carId)
                 .findFirst()
